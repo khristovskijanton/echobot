@@ -5,6 +5,7 @@ import asyncio
 
 # Установите свой токен бота
 API_TOKEN = "6502670177:AAEOP56LypLvvsTQW9v8WnjFV_UyUwDa9Ys"
+WEBHOOK_URL = "https://echobot.mooo.com"  # Замініть це на свій URL
 
 # Настройка логирования
 logging.basicConfig(level=logging.INFO)
@@ -12,6 +13,13 @@ logging.basicConfig(level=logging.INFO)
 # Инициализация бота и диспетчера
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
+
+async def on_startup(dp):
+    await bot.set_webhook(WEBHOOK_URL)
+    bot.send_message(chat_id=5577002380, text='Бот запущений')
+
+async def on_shutdown(dp):
+    await bot.delete_webhook()
 
 # Хендлер на команду /start
 @dp.message_handler(commands=['start'])
@@ -28,4 +36,11 @@ async def echo(message: types.Message):
 if __name__ == '__main__':
     from aiogram import executor
 
-    executor.start_polling(dp, skip_updates=True)
+    executor.start_webhook(
+        dispatcher=dp,
+        webhook_path='',
+        on_startup=on_startup,
+        on_shutdown=on_shutdown,
+        skip_updates=True,
+        host="0.0.0.0",
+        port=5000)
