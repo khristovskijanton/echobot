@@ -15,11 +15,11 @@ bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
 
 async def on_startup(dp):
-    await bot.set_webhook(WEBHOOK_URL)
+    #await bot.set_webhook(WEBHOOK_URL)
     #await bot.send_message(chat_id=5577002380, text='Бот запущений')
 
 async def on_shutdown(dp):
-    await bot.delete_webhook()
+    #await bot.delete_webhook()
     #await bot.send_message(chat_id=5577002380, text='Бот остановлен')
 
 # Хендлер на команду /start
